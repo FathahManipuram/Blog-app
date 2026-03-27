@@ -4,56 +4,35 @@
 // import { signInWithEmailAndPassword } from 'firebase/auth'
 // import Button from '../components/ui/Button'
 
-
-// const Login = () => {
-// 	const [email, setEmail]= useState("")
-// 	const [password, setPassWord]=useState("")
-
-// 	const handleClick= async()=>{
-// 		await signInWithEmailAndPassword(auth, email, password)
-// 	}
-
-//   return (
-// <div className='flex justify-center items-center h-screen'>
-// 	<div className='rounded-2xl overflow-hidden border border-white/70 bg-gray-900/70 backdrop-blur-xl p-7 space-y-3'>
-// 	<h1 className='text-center text-3xl pb-5'>Login</h1>
-// 	  <Input type="email" value={email} onChange={(e)=> setEmail(e.target.value)} placeHolder={"Your email"} label={"Username"}/>
-// 	  <Input type="password" value={password} onChange={(e)=> setPassWord(e.target.value)} placeHolder={"Your password"} label={"Password"}/>
-// 	  <Button onClick={handleClick}>Login</Button>
-// 	</div>
-// 	</div>
-//   )
-// }
-
-// export default Login
-
-
-
-
 import React, { useState } from 'react'
 import Input from '../components/ui/Input'
 import { auth } from '../services/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import Button from '../components/ui/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { showError, showSuccess } from '../helper/toast'
+import { MoveLeft } from 'lucide-react'
+
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassWord] = useState("")
+  const navigate= useNavigate()
 
   const handleClick = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
 	  showSuccess("Logged in successfully!")
-	  console.log("logged")
+    navigate("/")
     } catch (err) {
       showError(err.message)
     }
   }
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] px-4">
+      <p onClick={()=> navigate(-1)} className='absolute top-8 left-8 bg-[var(--surface)] p-3 rounded-full hover:bg-[var(--surface-hover)] cursor-pointer'><MoveLeft/></p>
 
       {/* Card */}
       <div className="w-full max-w-md rounded-2xl border border-[var(--border)] 

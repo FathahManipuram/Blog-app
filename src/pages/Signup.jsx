@@ -3,8 +3,9 @@ import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import { auth } from '../services/firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { showSuccess } from '../helper/toast'
+import { MoveLeft } from 'lucide-react'
 
 const Signup = () => {
   const [name, setName] = useState("")
@@ -13,8 +14,11 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
 
+const navigate= useNavigate()
+
+
   const handleSignup = async () => {
-	console.log("clicked")
+
     setError("")
 
     if (!email || !password || !confirmPassword) {
@@ -32,6 +36,8 @@ const Signup = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       showSuccess("User created")
+      navigate("/login")
+
     } catch (err) {
       setError(err.message)
     }
@@ -39,7 +45,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] px-4">
-
+ <p onClick={()=> navigate(-1)} className='absolute top-8 left-8 bg-[var(--surface)] p-3 rounded-full hover:bg-[var(--surface-hover)] cursor-pointer'><MoveLeft/></p>
       <div className="w-full max-w-md rounded-2xl border border-[var(--border)] 
         bg-[var(--surface)] backdrop-blur-xl p-8 shadow-2xl space-y-6">
 
